@@ -1,4 +1,5 @@
 MiNT is Not TOS: A Multitasking Operating System Extension for the Atari ST
+----------------------------------------------------------------------------
 
 This is an archive of the last "official" release of MiNT, a multi-tasking
 operating system for the Atari ST. I wrote it back in the 1990s, and
@@ -27,7 +28,6 @@ CODE AT YOUR OWN RISK.
 
 
 TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION, AND MODIFICATION
-----------------------------------------------------------------------------
 
 1. Redistribution and use of unmodified verbatim copies of MiNT (in either
 source or binary forms) are permitted, provided that the above copyright
