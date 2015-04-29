@@ -1,0 +1,42 @@
+mint.prg
+.C [-DMULTITOS -D__STDC__ -W-stv -P]
+.S [-3 -8 -S]
+=
+PCSTART.O          ; startup code
+bios (mint.h, proc.h, file.h, inline.h)
+xbios (mint.h, proc.h, file.h)
+console (mint.h, proc.h, file.h)
+dos (mint.h, proc.h, file.h)
+dosdir (mint.h, proc.h, file.h)
+dosfile (mint.h, proc.h, file.h)
+dosmem (mint.h, proc.h, file.h)
+dossig (mint.h, proc.h, file.h)
+filesys (mint.h, proc.h, file.h)
+main (mint.h, proc.h, file.h, version.h)
+mem (mint.h, proc.h, file.h)
+proc (mint.h, proc.h, file.h)
+signal (mint.h, proc.h, file.h)
+timeout (mint.h, proc.h, file.h)
+tty (mint.h, proc.h, file.h)
+util (mint.h, proc.h, file.h)
+biosfs (mint.h, proc.h, file.h)
+pipefs (mint.h, proc.h, file.h)
+procfs (mint.h, proc.h, file.h)
+tosfs (mint.h, proc.h, file.h)
+debug (mint.h, proc.h, file.h)
+rendez (mint.h, proc.h, file.h)
+unifs (mint.h, proc.h, file.h)
+shmfs (mint.h, proc.h, file.h)
+fasttext (mint.h, proc.h, file.h)
+nalloc2 (mint.h, proc.h, file.h)
+welcome (mint.h, proc.h, file.h)
+realloc (mint.h, proc.h, file.h)
+memprot (mint.h, proc.h, file.h)
+context.s (proc.h)
+intr.s (proc.h)
+syscall.s (proc.h)
+quickzer.s (proc.h)
+quickmov.s (proc.h)
+cpu.s (proc.h)
+pctoslib.lib
+pcstdlib.lib

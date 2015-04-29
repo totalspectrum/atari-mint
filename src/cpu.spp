@@ -1,0 +1,128 @@
+;
+; CPU tricks (mostly having to do with the MMU)
+;
+;
+; set_mmu(crp,tc): called once, the first time a page table is built, to 
+; switch away from the MMU setup that came from the ROM and into the setup 
+; that we just built.  The CRP is actually on the stack, and it's 8 bytes.
+; The TC is four bytes at sp@(0xc).  "Nulls" is here because we need to
+; shove zeros into a few places.
+;
+	DATA
+nulltc:	dc.l	0
+
+	TEXT
+	XDEF	_set_mmu
+_set_mmu:
+	pmove	(nulltc).l,tc		; turn off mmu
+	dc.l	$f0390800,nulltc	; pmove nulltc,tt0
+	dc.l	$f0390c00,nulltc	; pmove nulltc,tt1
+	pmove	4(sp),crp		; caution: crp is 8 bytes
+	pmove	$c(sp),tc
+	rts
+;
+; save_mmu, restr_mmu: save and restore the MMU setup that came from ROM
+;
+	DATA
+oldcrp:	dc.l	0
+	dc.l	0
+oldtc:	dc.l	0
+oldtt0:	dc.l	0
+oldtt1:	dc.l	0
+
+	TEXT
+	XDEF	_save_mmu
+_save_mmu:
+	pmove	tc,oldtc
+	dc.l	$f0390a00,oldtt0	; pmove	tt0,oldtt0
+	dc.l	$f0390e00,oldtt1	; pmove	tt1,oldtt1
+	pmove	crp,oldcrp
+	rts
+
+	XDEF	_restr_mmu
+_restr_mmu:
+	pmove	(nulltc).l,tc
+	dc.l	$f0390800,oldtt0	; pmove	oldtt0,tt0
+	dc.l	$f0390c00,oldtt1	; pmove	oldtt1,tt1
+	pmove	oldcrp,crp
+	pmove	oldtc,tc
+	rts
+;
+; Cache tricks
+;
+	XDEF	_cpush
+	XREF	_mcpu		; in main.c
+;
+; cpush(void *base, long length):
+; flush both caches from base over a distance of length. If length is -1
+; then the entire cache is flushed
+;
+_cpush:
+	movem.l	4(a7),d0/a0	; get parameters
+	exg	a0,d0		; and in the right order
+	move.l	_mcpu,d1	; start checking the CPU type
+	cmp.l	#20,d1
+	bcs.s	noc
+	cmp.l	#40,d1
+	bne.s	is030
+	
+	addq.l	#1,d0		; if was -1
+	beq.s	abc040		; then flush everything
+	add.l	#14,d0		; round up to line boundary
+	lsr.l	#4,d0		; convert to number of lines
+	cmp.l	#256,d0
+	bcs.s	fls040		; not too many lines, so dump only some
+
+abc040:	dc.w	$F4F8		; this is "cpusha bc" if your asm knows '040
+	bra.s	noc
+	
+; run through d0+1 times (since a0 may not be on a line boundary)
+fls040:	moveq	#16,d1
+do040:	dc.w	$F4E8		; this is "cpushl bc,(a0)" for the '040
+	add.w	d1,a0
+	dbf	d0,do040
+	bra.s	noc
+
+is030:
+	movec	cacr,d1
+	move.l	d1,-(a7)
+	addq.l	#1,d0		; if was -1
+	beq.s	abc030		; then flush everything
+	addq.l	#2,d0		; round up to long boundary
+	lsr.l	#2,d0		; convert to number of longs
+	cmp.l	#64,d0
+	bcs.s	fls030		; dump selectively
+	
+abc030:	or.w	#$808,d1
+	movec	d1,cacr
+	bra.s	rescacr
+
+fls030:	or.w	#$404,d1	; clear DC/IC entries
+; run through d0+1 times (since a0 may not be on a long boundary)
+do030:	movec	a0,caar
+	movec	d1,cacr
+	addq.w	#4,a0
+	dbf	d0,do030
+rescacr:
+	move.l	(a7)+,d0
+	movec	d0,cacr
+noc:	rts
+
+;
+; Set the stack pointer to a new value
+; Called when we're starting GEM from the exec_os vector
+
+	XDEF	_setstack
+_setstack:
+	move.l	(sp)+,a0	; pop return address
+	move.l	(sp)+,sp	; set stack pointer
+	jmp	(a0)		; return
+
+;
+; PMMU stuff
+;
+	XDEF	_flush_pmmu
+_flush_pmmu:
+	pflusha
+	rts
+	END

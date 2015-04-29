@@ -1,0 +1,10 @@
+#define WORD 257
+#define WHITESP 258
+#define EOLN 259
+#define STRING 260
+#define DEFINECMD 261
+#define INCLUDECMD 262
+#define IFDEFCMD 263
+#define IFNDEFCMD 264
+#define ELSECMD 265
+#define ENDIFCMD 266

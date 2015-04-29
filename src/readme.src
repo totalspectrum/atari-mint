@@ -1,0 +1,52 @@
+MiNT is Not TOS: A Multitasking Operating System Extension for the Atari ST
+
+Copyright 1990,1991,1992 Eric R. Smith.
+Copyright 1992,1993,1994 Atari Corporation
+All rights reserved.
+
+THE MiNT SOURCE CODE IS PROVIDED FREE OF CHARGE, AS IS. ATARI
+CORPORATION AND ERIC R. SMITH MAKE NO REPRESENTATIONS OR
+WARRANTIES WITH RESPECT TO THIS CODE, AND IN PARTICULAR
+SPECIFICALLY DISCLAIM ANY IMPLIED WARRANTIES OF
+MERCHANTIBILITY OR FITNESS FOR A PARTICULAR PURPOSE. USE THIS
+CODE AT YOUR OWN RISK.
+----------------------------------------------------------------------------
+Here is the source code for the current version of MiNT. There are
+lots of changes, of course, but no docs. Sorry. The "changes" file
+does provide a useful list of things that have changed since previous
+versions of MiNT. My apologies to anyone whose patches made it into
+the code, but who wasn't acknowledged in the "changes" file.
+
+Many thanks to Michael Hohmuth for maintaining the "mega-patches" for
+MiNT 1.10 and 1.11, and for all the members of the MiNT mailing list who have
+contributed bug fixes and new features to MiNT; without their support
+and hard work, MiNT 1.12 would probably not exist!
+
+Please read the notice in "copying" carefully. This code is completely
+unsupported; you use it at your own risk.
+
+COMPILER NOTES:
+
+gcc 2.3.3 works fine
+
+gcc 2.5.x causes problems in proc.c; MiNTs compiled with gcc 2.5.x don't
+    work with MultiTOS (and probably have other problems, too)
+
+Pure C should work (it may need a few tweaks)
+
+Lattice is untested
+
+Sozobon is right out; you need an ANSI compiler to be able to build MiNT.
+
+
+OTHER NOTES:
+
+The "MiNT library" which is available from various FTP servers is an
+*application* library; it is definitely NOT needed to build the kernel.
+In fact, the MiNT kernel uses virtually no library functions at all;
+the few that it does use are sufficiently generic that any decent C
+library should supply adequate versions.
+
+You can build the MiNT kernel on a plain TOS system; you don't need to
+already have MiNT running.
+

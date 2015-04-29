@@ -1,0 +1,6 @@
+genmagic.ttp
+.C [-DGENMAGIC -D__STDC__]
+=
+PCSTART.O          ; startup code
+genmagic (proc.h, file.h)
+pcstdlib.lib

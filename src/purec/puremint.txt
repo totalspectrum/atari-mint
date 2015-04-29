@@ -1,0 +1,50 @@
+How to compile MiNT 1.12 with PureC
+-----------------------------------
+
+Julian F. Reschke, 5. Juni 1994
+email: reschke@math.uni-muenster.de
+
+
+(1) Special files
+
+First of all, you need a special osbind.h. This is because Pure's own 
+version differs in some small details from the GCC header files. You 
+can't use Pure's tos.h, either, because in its latest versions it already 
+defines some of MiNT's data structures. You can either copy osbind.h into 
+the MiNT source directory or copy it into your PureC include folder. If 
+you are using the MiNT library, all should work fine without this file.
+
+This is all what's needed. You can either use the command line versions 
+of PureC, or you can use the PureC shell (copy mintpure.prj to the source 
+directory). I am compiling MiNT with GNU make (latest version at 
+atari.archive.umich.edu should work fine) and a self-made 'cc' command, 
+that I've specially written for the PureC command line versions (see 
+makefile.pcc). This tool is available from ftp.uni-muenster.de, 
+pub/atari/Tools/prgtl*.tos.
+
+If you're going to use the PureC shell, you'll have to 'manually' 
+translate the .spp files to the PASM syntax using asmtrans.ttp. The 
+syntax is
+
+asmtrans -purec -o outfile.s outfile.spp
+
+genmagic.ttp is needed to create the file magic.i, which in turn is 
+included by the .spp files.
+
+
+(2) Things to do
+
+So far, I've made no attempt to translate asmtrans with PureC. Try it 
+yourself (you'll need alloca; might work with the MiNT library version 
+for PureC) or compile them with gcc.
+
+
+(3) Caveats
+
+This is a preliminary 'port'. It seems to work fine on my machine, but 
+this guarantees nothing:
+
+There's still a conflict in the way PureC saves registers with what MiNT 
+file system drivers or device drivers expect. You will have to use PureC 
+1.1 to get the correct behaviour.
+
