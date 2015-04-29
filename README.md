@@ -24,9 +24,10 @@ OR WARRANTIES WITH RESPECT TO THIS CODE, AND IN PARTICULAR
 SPECIFICALLY DISCLAIM ANY IMPLIED WARRANTIES OF
 MERCHANTIBILITY OR FITNESS FOR A PARTICULAR PURPOSE. USE THIS
 CODE AT YOUR OWN RISK.
-----------------------------------------------------------------------------
+
 
 TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION, AND MODIFICATION
+----------------------------------------------------------------------------
 
 1. Redistribution and use of unmodified verbatim copies of MiNT (in either
 source or binary forms) are permitted, provided that the above copyright
